@@ -98,14 +98,15 @@ $$
 
 ### 4.1 绩效汇总 (Performance Summary)
 
-基于 2024-01-01 至今的回测数据（`fast-mode` 演示参数）：
+基于 2024-01-02 至今的回测数据（`fast-mode` 演示参数）：
 
 | 合约 (Asset) | 模式 (Method) | 年化收益 (Ann. Ret) | 夏普比率 (Sharpe) | 最大回撤 (MaxDD) | 胜率 (Win Rate) |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **T (10Y)** | **Static Grid (In-sample)** | 13.06% | 4.97 | -0.97% | 52.76% |
-| **T (10Y)** | **Dynamic WF (Out-of-sample)** | 9.13% | 3.57 | -1.55% | 51.24% |
-| **TL (30Y)** | **Static Grid (In-sample)** | 48.57% | 6.78 | -2.48% | 56.42% |
-| **TL (30Y)** | **Dynamic WF (Out-of-sample)** | 36.58% | 5.08 | -2.48% | 54.81% |
+| **T** | **Static Grid (In-sample)** | 13.06% | 4.9656 | -0.97% | 52.76% |
+| **T** | **Dynamic WF (Out-of-sample)** | 9.13% | 3.5711 | -1.55% | 52.29% |
+| **TL** | **Static Grid (In-sample)** | 48.57% | 6.7774 | -2.48% | 53.28% |
+| **TL** | **Dynamic WF (Out-of-sample)** | 36.58% | 5.0833 | -2.48% | 52.75% |
+
 
 > **结果分析**：
 > 1. **稳定性**：Dynamic 模式由于采用了样本外滚动，其 Sharpe 比率虽略低于全样本最优的 Static 模式，但更接近真实交易环境，有效降低了过度拟合（Overfitting）风险。
@@ -230,14 +231,15 @@ $$
 
 ### 4.1 Summary Table
 
-Based on backtest data since 2024-01-01 (`fast-mode` parameters):
+Based on backtest data from 2024-01-02 to 2026-07-29 (`fast-mode` parameters):
 
 | Asset | Method | Ann. Return | Sharpe Ratio | Max Drawdown | Win Rate |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **T (10Y)** | **Static Grid** | 13.06% | 4.97 | -0.97% | 52.76% |
-| **T (10Y)** | **Dynamic WF** | 9.13% | 3.57 | -1.55% | 51.24% |
-| **TL (30Y)** | **Static Grid** | 48.57% | 6.78 | -2.48% | 56.42% |
-| **TL (30Y)** | **Dynamic WF** | 36.58% | 5.08 | -2.48% | 54.81% |
+| **T** | **Static Grid (In-sample)** | 13.06% | 4.9656 | -0.97% | 52.76% |
+| **T** | **Dynamic WF (Out-of-sample)** | 9.13% | 3.5711 | -1.55% | 52.29% |
+| **TL** | **Static Grid (In-sample)** | 48.57% | 6.7774 | -2.48% | 53.28% |
+| **TL** | **Dynamic WF (Out-of-sample)** | 36.58% | 5.0833 | -2.48% | 52.75% |
+
 
 ### 4.2 Visual Analysis
 
