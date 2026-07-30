@@ -136,7 +136,7 @@ def build_report(
     debug_table = markdown_table(_debug_table(debug)) if debug is not None and not debug.empty else ""
     best_params_text = json.dumps(best_params or {}, ensure_ascii=False, indent=2)
 
-    return rf'''# 基于 QRS 的中国国债期货择时研究报告 | QRS-Based Timing Strategy Report for Chinese Government Bond Futures
+    return r'''# 基于 QRS 的中国国债期货择时研究报告 | QRS-Based Timing Strategy Report for Chinese Government Bond Futures
 
 <p align="center">
 <a href="#zh"><img src="https://img.shields.io/badge/LANGUAGE-%E4%B8%AD%E6%96%87-E84D3D?style=for-the-badge&labelColor=3B3F47" alt="LANGUAGE 中文"></a>
@@ -155,7 +155,7 @@ def build_report(
 
 本报告展示基于 QRS 指标的中国国债期货择时研究流程。
 - **理论来源**：本项目核心思路参考自中金公司（CICC）量化研究报告 **《金融工程视角下的技术择时艺术》**。
-- **运行环境**：当前运行模式：`{metadata['mode']}`；当前运行合约：`{metadata['contract']}`；输入数据：`{metadata['input_file']}`；样本区间：`{metadata['start_date']} 至 {metadata['end_date']}`。
+- **运行环境**：当前运行模式：`__MODE__`；当前运行合约：`__CONTRACT__`；输入数据：`__INPUT_FILE__`；样本区间：`__START_DATE__ 至 __END_DATE__`。
 
 
 ### 2. 核心模型逻辑
@@ -194,16 +194,16 @@ $$
 
 本次回测采用的最佳参数：
 ```json
-{best_params_text}
+__BEST_PARAMS__
 ```
 
 ### 4. 回测结果汇总
 
-{metric_table}
+__METRIC_TABLE__
 
 ### 5. Debug 辅助指标
 
-{debug_table}
+__DEBUG_TABLE__
 
 ### 6. 可视化图表
 
@@ -239,14 +239,14 @@ Current language: English | [切换到中文](#zh)
 
 This report presents a QRS-based timing workflow for Chinese government bond futures.
 - **Source**: The core logic is inspired by the CICC quantitative research report ***The Art of Technical Timing from a Financial Engineering Perspective***.
-- **Environment**: Current mode: `{metadata['mode']}`; contract: `{metadata['contract']}`; input data: `{metadata['input_file']}`; sample period: `{metadata['start_date']} to {metadata['end_date']}`.
+- **Environment**: Current mode: `__MODE__`; contract: `__CONTRACT__`; input data: `__INPUT_FILE__`; sample period: `__START_DATE__ to __END_DATE__`.
 ### 2. Core Model Logic
 
 #### 2.1 QRS Factor Construction
 QRS indicators describe trend quality through resistance-support relationships. A local regression is performed on 5-minute OHLC bars:
 
 $$
-high_t = \alpha + \beta \cdot low_t + \varepsilon_t, \quad t \in \{{1,2,\ldots,N\}}
+high_t = \alpha + \beta \cdot low_t + \varepsilon_t, \quad t \in \{1,2,\ldots,N\}
 $$
 
 The slope $\beta$ is standardized via rolling Z-score and adjusted by an $R^2$ penalty term:
@@ -267,16 +267,16 @@ The default search space covers $S$ thresholds, trend methods, and MA periods.
 
 Parameters used in this run:
 ```json
-{best_params_text}
+__BEST_PARAMS__
 ```
 
 ### 4. Backtest Results
 
-{metric_table}
+__METRIC_TABLE__
 
 ### 5. Debug Metrics
 
-{debug_table}
+__DEBUG_TABLE__
 
 ### 6. Visualization
 
@@ -297,7 +297,14 @@ Parameters used in this run:
 
 ### 7. Disclaimer
 This report is for quantitative research and demonstration only. It does not constitute investment advice or any return guarantee.
-'''
+'''.replace("__MODE__", str(metadata["mode"])) \
+   .replace("__CONTRACT__", str(metadata["contract"])) \
+   .replace("__INPUT_FILE__", str(metadata["input_file"])) \
+   .replace("__START_DATE__", str(metadata["start_date"])) \
+   .replace("__END_DATE__", str(metadata["end_date"])) \
+   .replace("__BEST_PARAMS__", best_params_text) \
+   .replace("__METRIC_TABLE__", metric_table) \
+   .replace("__DEBUG_TABLE__", debug_table)
 
 
 def _save_common_outputs(bt: pd.DataFrame, summary: pd.DataFrame, metadata: dict[str, Any], debug: pd.DataFrame | None, best_params: dict[str, Any] | None, suffix: str = "") -> None:

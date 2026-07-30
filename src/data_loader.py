@@ -168,13 +168,71 @@ def discover_input_file(contract: str = "T", search_dirs: Iterable[str | Path] |
                  value += 50
              elif " t" in name or name.startswith("t"):
                  value += 30
-                 
+
         for keyword in SEARCH_KEYWORDS:
             if keyword.lower() in name:
                 value += 5
-        
+
         return value, path.stat().st_mtime
 
     best_match = sorted(candidates, key=score, reverse=True)[0]
     print(f"Contract {contract}: selected file {best_match.name}")
     return best_match
+
+
+# ── Tushare data source support ────────────────────────────────────
+
+
+def load_from_tushare(
+    contract: str = "T",
+    freq: str = "5min",
+    start_date: str = "20240101",
+    end_date: str | None = None,
+    use_cache: bool = True,
+    force_refresh: bool = False,
+) -> pd.DataFrame:
+    """Load market data from Tushare API with local Parquet caching.
+
+    Priority:  cache → Tushare API → raise error (caller may fall back
+    to local files).
+
+    Parameters
+    ----------
+    contract: "T" or "TL".
+    freq: "5min" (ft_mins) or "daily" (fut_daily).
+    start_date: YYYYMMDD — full-fetch start when cache is empty.
+    end_date: YYYYMMDD — defaults to today.
+    use_cache: Read/write local Parquet cache.
+    force_refresh: Ignore cache and re-fetch everything.
+
+    Returns
+    -------
+    Standardized OHLC DataFrame: date, open, high, low, close, [volume, open_interest].
+    """
+    from datetime import datetime
+
+    from .cache_manager import incremental_update, read_cache, write_cache
+    from .tushare_fetcher import fetch_ft_5min, fetch_fut_daily
+
+    end_str = end_date or datetime.now().strftime("%Y%m%d")
+
+    if freq == "5min":
+        fetch_fn = lambda s, e: fetch_ft_5min(contract, s, e)
+    elif freq == "daily":
+        fetch_fn = lambda s, e: fetch_fut_daily(contract, s, e)
+    else:
+        raise ValueError(f"Unsupported frequency: {freq}")
+
+    if not use_cache:
+        # Direct API call, no caching
+        df = fetch_fn(start_date, end_str)
+        if df.empty:
+            raise RuntimeError(f"Tushare returned empty data for {contract} ({freq})")
+        return df
+
+    # Incremental update (cache → api → merge → write)
+    df = incremental_update(contract, freq, fetch_fn, start_date=start_date, force=force_refresh)
+    if df.empty:
+        raise RuntimeError(f"No data available for {contract} ({freq}) — Tushare API returned empty and no cache.")
+    return df
+

@@ -26,7 +26,7 @@
 QRS 类指标通过价格区间中的阻力与支撑关系刻画趋势质量. 在 5 分钟 OHLC 上执行局部回归：
 
 $$
-high_t = \alpha + \beta \cdot low_t + \varepsilon_t, \quad t \in \{1,2,\ldots,N\}
+high_t = \alpha + \beta \cdot low_t + \varepsilon_t
 $$
 
 对斜率 $\beta$ 进行滚动 Z-score 标准化，并引入 $R^2$ 作为惩罚项：
@@ -40,6 +40,15 @@ $$
 - **做多**：$QRS > +S$ 且日频趋势向上, 仓位设为 1；
 - **做空**：$QRS < -S$ 且日频趋势向下, 仓位设为 -1（若允许做空）；
 - **维持**：维持上一根 5 分钟 Bar 的原始仓位。
+
+$$
+Pos_t =
+\begin{cases}
+1, & QRS_t > S \text{ and } Trend_{up,t} = True \\
+-1, & QRS_t < -S \text{ and } Trend_{down,t} = True \\
+Pos_{t-1}, & \text{otherwise}
+\end{cases}
+$$
 
 ### 3. 参数搜索空间与最佳参数
 

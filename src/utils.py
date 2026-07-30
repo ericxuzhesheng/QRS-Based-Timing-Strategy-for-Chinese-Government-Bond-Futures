@@ -1,13 +1,23 @@
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Iterable
 
 import numpy as np
 import pandas as pd
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+
+# ── Load .env if present (for TUSHARE_TOKEN and friends) ─────────────
+try:
+    from dotenv import load_dotenv as _load_dotenv
+
+    _env_file = PROJECT_ROOT / ".env"
+    if _env_file.exists():
+        _load_dotenv(_env_file)
+except ImportError:
+    pass
 
 
 def ensure_dir(path: str | Path) -> Path:
