@@ -176,7 +176,10 @@ def get_contract_timeline(contract: str, start_date: str, end_date: str) -> pd.D
 def fetch_fut_daily(contract: str, start_date: str, end_date: str) -> pd.DataFrame:
     """Fetch daily OHLC data for *contract* ('T' or 'TL').
 
-    Uses Tushare fut_daily with the continuous contract code.
+    Uses Tushare fut_daily with the continuous contract code when it exposes
+    the full requested history. ``TL0.CFX`` is a mapping symbol rather than
+    a complete daily-price series, so TL daily bars are stitched from the
+    mapped actual contracts.
 
     Returns standardized DataFrame with columns:
         date, open, high, low, close, volume, open_interest
@@ -185,12 +188,53 @@ def fetch_fut_daily(contract: str, start_date: str, end_date: str) -> pd.DataFra
     symbol = contract.upper()
     code = CGB_SYMBOLS.get(symbol, {}).get("continuous_code", f"{symbol}.CFX")
 
+    if code.endswith("0.CFX"):
+        return _fetch_mapped_fut_daily(contract, start_date, end_date)
+
     logger.info("fut_daily: %s  %s → %s", code, start_date, end_date)
     df = _call_with_retry(pro.fut_daily, ts_code=code, start_date=start_date, end_date=end_date)
     if df.empty:
         logger.warning("fut_daily returned empty for %s", code)
         return pd.DataFrame()
     return _normalize_daily(df)
+
+
+def _fetch_mapped_fut_daily(contract: str, start_date: str, end_date: str) -> pd.DataFrame:
+    """Build a dominant continuous daily series from actual contract bars."""
+    pro = _get_pro()
+    symbol = contract.upper()
+    timeline = get_contract_timeline(contract, start_date, end_date)
+    if timeline.empty:
+        logger.warning("No daily contract timeline for %s %s->%s", symbol, start_date, end_date)
+        return pd.DataFrame()
+
+    all_frames: list[pd.DataFrame] = []
+    timeline = timeline.reset_index(drop=True)
+    for index, row in timeline.iterrows():
+        code = str(row["mapping_ts_code"])
+        period_start = max(start_date, str(row["trade_date"]))
+        if index + 1 < len(timeline):
+            period_end = min(end_date, str(timeline.iloc[index + 1]["trade_date"]))
+        else:
+            period_end = end_date
+
+        logger.info("fut_daily mapped: %s  %s -> %s", code, period_start, period_end)
+        raw = _call_with_retry(
+            pro.fut_daily,
+            ts_code=code,
+            start_date=period_start,
+            end_date=period_end,
+        )
+        if not raw.empty:
+            all_frames.append(_normalize_daily(raw))
+
+    if not all_frames:
+        logger.warning("Mapped fut_daily returned empty for %s", symbol)
+        return pd.DataFrame()
+
+    combined = pd.concat(all_frames, ignore_index=True)
+    combined = combined.drop_duplicates(subset=["date"], keep="last")
+    return combined.sort_values("date").reset_index(drop=True)
 
 
 def _normalize_daily(raw: pd.DataFrame) -> pd.DataFrame:

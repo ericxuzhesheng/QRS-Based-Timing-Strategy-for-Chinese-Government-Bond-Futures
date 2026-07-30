@@ -125,7 +125,7 @@ def incremental_update(
     """Incremental cache update.
 
     1. Read existing cache.
-    2. Determine fetch range — only new dates unless *force* is True.
+    2. Determine fetch ranges, including a missing historical prefix and new dates.
     3. Call *fetch_fn(start, end)* to get new data.
     4. Merge, deduplicate, write back to cache.
 
@@ -148,39 +148,62 @@ def incremental_update(
         clear_cache(contract, freq)
 
     cached = read_cache(contract, freq)
+    fetch_ranges: list[tuple[str, str, str]] = []
     if cached is not None and not cached.empty:
         last_cached = get_last_cached_date(contract, freq)
-        if last_cached is None:
-            fetch_start = start_date
-        else:
-            # Start from the day AFTER the last cached date
-            fetch_start = (datetime.strptime(last_cached, "%Y%m%d") + timedelta(days=1)).strftime("%Y%m%d")
+        cached_dates = pd.to_datetime(cached["date"])
+        first_cached_dt = cached_dates.min().to_pydatetime()
+        requested_start_dt = datetime.strptime(start_date, "%Y%m%d")
+
+        # Ignore short calendar gaps caused by weekends/holidays, but repair a
+        # materially truncated cache such as TL daily starting years too late.
+        if (first_cached_dt - requested_start_dt).days > 7:
+            prefix_end = (first_cached_dt - timedelta(days=1)).strftime("%Y%m%d")
+            fetch_ranges.append(("historical", start_date, prefix_end))
+
+        if last_cached is not None:
+            suffix_start = (
+                datetime.strptime(last_cached, "%Y%m%d") + timedelta(days=1)
+            ).strftime("%Y%m%d")
+            if suffix_start <= end_date:
+                fetch_ranges.append(("incremental", suffix_start, end_date))
     else:
         cached = None
-        fetch_start = start_date
+        fetch_ranges.append(("full", start_date, end_date))
 
     # If we're already up-to-date, return cache as-is
-    if fetch_start > end_date:
+    if not fetch_ranges:
         return cached if cached is not None else pd.DataFrame()
 
-    # Fetch new data
-    try:
-        new_data = fetch_fn(fetch_start, end_date)
-    except Exception:
-        if cached is not None:
-            return cached  # degrade gracefully
-        raise
+    fetched_frames: list[pd.DataFrame] = []
+    for range_kind, fetch_start, fetch_end in fetch_ranges:
+        try:
+            new_data = fetch_fn(fetch_start, fetch_end)
+        except Exception:
+            # A failed historical repair must remain visible; otherwise the
+            # workflow would report an incomplete cache as healthy.
+            if range_kind == "historical" or cached is None:
+                raise
+            continue
+        if new_data.empty:
+            if range_kind == "historical":
+                raise RuntimeError(
+                    f"Historical cache backfill returned no data for "
+                    f"{contract}/{freq}: {fetch_start}-{fetch_end}"
+                )
+            continue
+        fetched_frames.append(new_data)
 
-    if new_data.empty:
+    if not fetched_frames:
         if cached is not None:
             return cached
         return pd.DataFrame()
 
     # Merge
     if cached is not None and not cached.empty:
-        combined = pd.concat([cached, new_data], ignore_index=True)
+        combined = pd.concat([cached, *fetched_frames], ignore_index=True)
     else:
-        combined = new_data
+        combined = pd.concat(fetched_frames, ignore_index=True)
 
     # Deduplicate — keep the latest version of each date row
     if "date" in combined.columns:
