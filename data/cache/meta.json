@@ -2,10 +2,10 @@
   "tl_daily": {
     "contract": "TL",
     "frequency": "daily",
-    "last_updated": "2026-07-30T14:26:25.039474",
+    "last_updated": "2026-07-30T14:45:59.225023",
     "date_start": "2026-07-20",
-    "date_end": "2026-07-29",
-    "row_count": 8
+    "date_end": "2026-07-30",
+    "row_count": 9
   },
   "tl_5min": {
     "contract": "TL",
@@ -26,9 +26,9 @@
   "t_daily": {
     "contract": "T",
     "frequency": "daily",
-    "last_updated": "2026-07-30T14:28:16.960629",
+    "last_updated": "2026-07-30T14:45:56.530935",
     "date_start": "2024-01-02",
-    "date_end": "2026-07-29",
-    "row_count": 622
+    "date_end": "2026-07-30",
+    "row_count": 623
   }
 }
