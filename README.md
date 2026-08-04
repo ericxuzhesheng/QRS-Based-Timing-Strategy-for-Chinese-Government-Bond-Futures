@@ -112,6 +112,7 @@ $$
 
 
 
+
 > **结果分析**：
 > 1. **稳定性**：Dynamic 模式由于采用了样本外滚动，其 Sharpe 比率虽略低于全样本最优的 Static 模式，但更接近真实交易环境，有效降低了过度拟合（Overfitting）风险。
 > 2. **收益特征**：TL 合约由于波动率更高且趋势性更强，QRS 指标在 TL 上的表现显著优于 T 合约。
@@ -243,6 +244,7 @@ Based on backtest data from 2024-01-02 to 2026-07-29 (`fast-mode` parameters):
 | **T** | **Dynamic WF (Out-of-sample)** | 9.13% | 3.5711 | -1.55% | 52.29% |
 | **TL** | **Static Grid (In-sample)** | 48.57% | 6.7774 | -2.48% | 53.28% |
 | **TL** | **Dynamic WF (Out-of-sample)** | 36.58% | 5.0833 | -2.48% | 52.75% |
+
 
 
 
