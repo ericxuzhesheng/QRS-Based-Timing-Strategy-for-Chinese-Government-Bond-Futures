@@ -10,18 +10,18 @@
   "tl_5min": {
     "contract": "TL",
     "frequency": "5min",
-    "last_updated": "2026-09-30T15:45:23.138659",
+    "last_updated": "2026-10-01T16:10:40.659088",
     "date_start": "2024-01-02",
-    "date_end": "2026-09-29",
-    "row_count": 34580
+    "date_end": "2026-09-30",
+    "row_count": 34632
   },
   "t_5min": {
     "contract": "T",
     "frequency": "5min",
-    "last_updated": "2026-09-30T15:45:20.339618",
+    "last_updated": "2026-10-01T16:10:36.058417",
     "date_start": "2024-01-02",
-    "date_end": "2026-09-29",
-    "row_count": 34580
+    "date_end": "2026-09-30",
+    "row_count": 34632
   },
   "t_daily": {
     "contract": "T",
