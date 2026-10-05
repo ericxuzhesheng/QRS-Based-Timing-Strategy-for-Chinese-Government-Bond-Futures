@@ -1,0 +1,89 @@
+{
+  "status": "passed",
+  "verified_at": "2026-10-05T11:50:30.159683+08:00",
+  "bars_reconstructed": 1374831,
+  "checked": [
+    "training-only selection",
+    "signal precedes next-open execution",
+    "daily-flat execution",
+    "no intraday contract transitions",
+    "zero-volume opening deferral",
+    "zero-volume exit performance gate",
+    "independent net cashflows",
+    "saved holdout cumulative returns"
+  ],
+  "ledgers": [
+    {
+      "product": "T",
+      "cost_bp": 0,
+      "bars": 146952,
+      "holdout_cumulative_return": -0.024540734408669218
+    },
+    {
+      "product": "T",
+      "cost_bp": 1,
+      "bars": 146952,
+      "holdout_cumulative_return": -0.08903454060550409
+    },
+    {
+      "product": "T",
+      "cost_bp": 3,
+      "bars": 146952,
+      "holdout_cumulative_return": -0.20552810129330434
+    },
+    {
+      "product": "TF",
+      "cost_bp": 0,
+      "bars": 166932,
+      "holdout_cumulative_return": -0.008016029773267985
+    },
+    {
+      "product": "TF",
+      "cost_bp": 1,
+      "bars": 166932,
+      "holdout_cumulative_return": -0.07100471087629723
+    },
+    {
+      "product": "TF",
+      "cost_bp": 3,
+      "bars": 166932,
+      "holdout_cumulative_return": -0.18525317386407625
+    },
+    {
+      "product": "TL",
+      "cost_bp": 0,
+      "bars": 42585,
+      "holdout_cumulative_return": 0.011901466438151376
+    },
+    {
+      "product": "TL",
+      "cost_bp": 1,
+      "bars": 42585,
+      "holdout_cumulative_return": -0.06084291989114177
+    },
+    {
+      "product": "TL",
+      "cost_bp": 3,
+      "bars": 42585,
+      "holdout_cumulative_return": -0.19103722434543724
+    },
+    {
+      "product": "TS",
+      "cost_bp": 0,
+      "bars": 101808,
+      "holdout_cumulative_return": -0.0006213193124455785
+    },
+    {
+      "product": "TS",
+      "cost_bp": 1,
+      "bars": 101808,
+      "holdout_cumulative_return": -0.054294692371149145
+    },
+    {
+      "product": "TS",
+      "cost_bp": 3,
+      "bars": 101808,
+      "holdout_cumulative_return": -0.15316241619957094
+    }
+  ]
+}

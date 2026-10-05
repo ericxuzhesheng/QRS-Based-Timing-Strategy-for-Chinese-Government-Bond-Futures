@@ -1,5 +1,7 @@
 # 基于 QRS 的中国国债期货择时研究报告 | QRS-Based Timing Strategy Report for Chinese Government Bond Futures
 
+> 历史实验存档：原结果含日趋势时间泄漏且未计成本，不能作为有效收益证据。当前四品种因果研究见 [最新报告](minute_research/report.md)。
+
 <p align="center">
 <a href="#zh"><img src="https://img.shields.io/badge/LANGUAGE-%E4%B8%AD%E6%96%87-E84D3D?style=for-the-badge&labelColor=3B3F47" alt="LANGUAGE 中文"></a>
 <a href="#en"><img src="https://img.shields.io/badge/LANGUAGE-ENGLISH-2F73C9?style=for-the-badge&labelColor=3B3F47" alt="LANGUAGE ENGLISH"></a>

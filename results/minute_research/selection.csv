@@ -1,0 +1,5 @@
+﻿product,candidate_id,N,M,n,S,trend_method,ma_len_days,compare_lag_days
+TS,1,16,600,2.0,0.5,ma_compare,5,2
+TF,2,16,600,2.0,0.5,price_compare,5,2
+T,1,16,600,2.0,0.5,ma_compare,5,2
+TL,5,20,800,2.0,0.5,price_compare,5,2

@@ -1,0 +1,8 @@
+{
+  "scope": "Synthetic computational fixture only; not market data or strategy performance",
+  "fixture": "10000 generated bars, seed 20261005, regression N16, zscore M600",
+  "old_regression_seconds": 0.1374756999866804,
+  "new_full_factor_seconds": 0.012321300004259683,
+  "speedup_lower_bound": 11.157564537764094,
+  "max_beta_r2_absolute_difference": 5.139944025955856e-12
+}

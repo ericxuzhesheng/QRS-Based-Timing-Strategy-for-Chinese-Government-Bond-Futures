@@ -29,12 +29,12 @@ def build_daily_trend_filter_from_intraday(
                 "trend_up": trend_up,
                 "trend_down": trend_down,
             }
-        ).dropna(subset=["ma"])
+        )
     elif method == "ma_cross":
         short_ma = daily_close.rolling(int(ma_short)).mean()
         long_ma = daily_close.rolling(int(ma_long)).mean()
-        trend_up = short_ma > long_ma
-        trend_down = short_ma < long_ma
+        trend_up = short_ma.shift(1) > long_ma.shift(1)
+        trend_down = short_ma.shift(1) < long_ma.shift(1)
         daily = pd.DataFrame(
             {
                 "daily_close": daily_close,
@@ -43,11 +43,11 @@ def build_daily_trend_filter_from_intraday(
                 "trend_up": trend_up,
                 "trend_down": trend_down,
             }
-        ).dropna(subset=["ma_long"])
+        )
     elif method == "price_compare":
         daily_ma = daily_close.rolling(int(ma_len_days)).mean()
-        trend_up = daily_close > daily_ma
-        trend_down = daily_close < daily_ma
+        trend_up = daily_close.shift(1) > daily_ma.shift(1)
+        trend_down = daily_close.shift(1) < daily_ma.shift(1)
         daily = pd.DataFrame(
             {
                 "daily_close": daily_close,
@@ -55,7 +55,7 @@ def build_daily_trend_filter_from_intraday(
                 "trend_up": trend_up,
                 "trend_down": trend_down,
             }
-        ).dropna(subset=["ma"])
+        )
     else:
         raise ValueError(f"Unsupported trend_method: {trend_method}")
 

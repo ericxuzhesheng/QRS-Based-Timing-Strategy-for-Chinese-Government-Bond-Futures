@@ -863,11 +863,11 @@ class QRSBacktester:
           多头趋势：MA(t-1) > MA(t-1-compare_lag_days)
           空头趋势：MA(t-1) < MA(t-1-compare_lag_days)
         - "ma_cross": 比较短均线和长均线
-          多头趋势：MA_short > MA_long
-          空头趋势：MA_short < MA_long
+          多头趋势：MA_short(t-1) > MA_long(t-1)
+          空头趋势：MA_short(t-1) < MA_long(t-1)
         - "price_compare": 比较价格与均线
-          多头趋势：Price > MA
-          空头趋势：Price < MA
+          多头趋势：Price(t-1) > MA(t-1)
+          空头趋势：Price(t-1) < MA(t-1)
 
         返回：
         - trend_up_5m：对齐到5分钟index的布尔序列（当日所有bar共享）
@@ -893,15 +893,15 @@ class QRSBacktester:
                     "trend_up": trend_up_d,
                     "trend_down": trend_down_d,
                 }
-            ).dropna(subset=["ma"])
+            )
 
         elif trend_method == "ma_cross":
             # 方法2：比较短均线和长均线
             ma_short_val = daily_close.rolling(ma_short).mean()
             ma_long_val = daily_close.rolling(ma_long).mean()
 
-            trend_up_d = ma_short_val > ma_long_val
-            trend_down_d = ma_short_val < ma_long_val
+            trend_up_d = ma_short_val.shift(1) > ma_long_val.shift(1)
+            trend_down_d = ma_short_val.shift(1) < ma_long_val.shift(1)
 
             daily_df = pd.DataFrame(
                 {
@@ -911,14 +911,14 @@ class QRSBacktester:
                     "trend_up": trend_up_d,
                     "trend_down": trend_down_d,
                 }
-            ).dropna(subset=["ma_long"])
+            )
 
         elif trend_method == "price_compare":
             # 方法3：比较价格与均线
             daily_ma = daily_close.rolling(ma_len_days).mean()
 
-            trend_up_d = daily_close > daily_ma
-            trend_down_d = daily_close < daily_ma
+            trend_up_d = daily_close.shift(1) > daily_ma.shift(1)
+            trend_down_d = daily_close.shift(1) < daily_ma.shift(1)
 
             daily_df = pd.DataFrame(
                 {
@@ -927,7 +927,7 @@ class QRSBacktester:
                     "trend_up": trend_up_d,
                     "trend_down": trend_down_d,
                 }
-            ).dropna(subset=["ma"])
+            )
 
         else:
             raise ValueError(f"未知的趋势判断方法: {trend_method}")

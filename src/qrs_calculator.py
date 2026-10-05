@@ -74,15 +74,19 @@ def calculate_qrs_intraday(
         raise ValueError(f"Missing columns for QRS intraday calculation: {sorted(missing)}")
 
     df = data.copy().sort_values("date").reset_index(drop=True)
-    row_count = len(df)
-    beta = np.full(row_count, np.nan)
-    r2 = np.full(row_count, np.nan)
-    low = df["low"].to_numpy(dtype=float)
-    high = df["high"].to_numpy(dtype=float)
-
     window = int(N)
-    for i in range(window, row_count):
-        beta[i], r2[i] = weighted_low_high_beta_r2(low[i - window : i], high[i - window : i])
+    if window < 2 or int(M) < 2:
+        raise ValueError("N and M must be at least 2")
+    # Match the original preceding-N-bars regression, without a Python loop.
+    # A fixed, already-known anchor avoids cancellation for tiny price ranges.
+    anchor = float(df["close"].iloc[0]) if len(df) else 0.0
+    low = df["low"].astype(float) - anchor
+    high = df["high"].astype(float) - anchor
+    var_low = low.rolling(window).var(ddof=0).shift(1)
+    var_high = high.rolling(window).var(ddof=0).shift(1)
+    cov = low.rolling(window).cov(high, ddof=0).shift(1)
+    beta = cov / var_low.where(var_low > 0)
+    r2 = (cov**2 / (var_low * var_high).where((var_low > 0) & (var_high > 0))).clip(0, 1)
 
     out = df.copy()
     out["beta"] = beta

@@ -1,0 +1,150 @@
+{
+  "run_at": "2026-10-05T11:48:29.782410+08:00",
+  "data_dir": "D:\\Github Repository\\research-validation-20261005\\cgb-market-data",
+  "source": "tushare",
+  "training_end": "2024-12-31",
+  "holdout_start": "2025-01-01",
+  "grid": [
+    {
+      "N": 16,
+      "M": 600,
+      "n": 2.0,
+      "S": 0.3,
+      "trend_method": "ma_compare",
+      "ma_len_days": 5,
+      "compare_lag_days": 2
+    },
+    {
+      "N": 16,
+      "M": 600,
+      "n": 2.0,
+      "S": 0.5,
+      "trend_method": "ma_compare",
+      "ma_len_days": 5,
+      "compare_lag_days": 2
+    },
+    {
+      "N": 16,
+      "M": 600,
+      "n": 2.0,
+      "S": 0.5,
+      "trend_method": "price_compare",
+      "ma_len_days": 5,
+      "compare_lag_days": 2
+    },
+    {
+      "N": 20,
+      "M": 800,
+      "n": 2.0,
+      "S": 0.3,
+      "trend_method": "ma_compare",
+      "ma_len_days": 5,
+      "compare_lag_days": 2
+    },
+    {
+      "N": 20,
+      "M": 800,
+      "n": 2.0,
+      "S": 0.5,
+      "trend_method": "ma_compare",
+      "ma_len_days": 5,
+      "compare_lag_days": 2
+    },
+    {
+      "N": 20,
+      "M": 800,
+      "n": 2.0,
+      "S": 0.5,
+      "trend_method": "price_compare",
+      "ma_len_days": 5,
+      "compare_lag_days": 2
+    }
+  ],
+  "selection": "per-product highest training daily net Sharpe at 1 bp per side; stable candidate-id tie break",
+  "cost_bp_per_side": [
+    0,
+    1,
+    3
+  ],
+  "execution": "preceding closed 5min signal at next actual first-minute open; flat at final daily close",
+  "liquidity": "zero-volume first-minute changes deferred; closing zero-volume exits flagged; no real bid/ask or guaranteed fills",
+  "rolls": "causal forward multiplicative factor adjustment at incoming open; original execution prices; flat overnight",
+  "inputs": {
+    "TS": {
+      "path": "D:\\Github Repository\\research-validation-20261005\\cgb-market-data\\research\\TS_1min.parquet",
+      "bytes": 9379110,
+      "minute_rows": 509040,
+      "minute_start": "2018-08-20 09:16:00",
+      "minute_end": "2026-09-30 15:15:00",
+      "excluded_incomplete_dates": 0,
+      "excluded_incomplete_bins": 0,
+      "five_minute_rows": 101808,
+      "five_minute_start": "2018-08-20 09:20:00",
+      "five_minute_end": "2026-09-30 15:15:00",
+      "five_minute_days": 1969,
+      "bars_per_day": [
+        51,
+        54
+      ],
+      "zero_volume_minutes": 112580,
+      "zero_first_minute_volume_bars": 21013
+    },
+    "TF": {
+      "path": "D:\\Github Repository\\research-validation-20261005\\cgb-market-data\\research\\TF_1min.parquet",
+      "bytes": 18203049,
+      "minute_rows": 834660,
+      "minute_start": "2013-09-09 09:16:00",
+      "minute_end": "2026-09-30 15:15:00",
+      "excluded_incomplete_dates": 0,
+      "excluded_incomplete_bins": 0,
+      "five_minute_rows": 166932,
+      "five_minute_start": "2013-09-09 09:20:00",
+      "five_minute_end": "2026-09-30 15:15:00",
+      "five_minute_days": 3175,
+      "bars_per_day": [
+        51,
+        54
+      ],
+      "zero_volume_minutes": 34445,
+      "zero_first_minute_volume_bars": 6136
+    },
+    "T": {
+      "path": "D:\\Github Repository\\research-validation-20261005\\cgb-market-data\\research\\T_1min.parquet",
+      "bytes": 16632540,
+      "minute_rows": 734760,
+      "minute_start": "2015-03-23 09:16:00",
+      "minute_end": "2026-09-30 15:15:00",
+      "excluded_incomplete_dates": 0,
+      "excluded_incomplete_bins": 0,
+      "five_minute_rows": 146952,
+      "five_minute_start": "2015-03-23 09:20:00",
+      "five_minute_end": "2026-09-30 15:15:00",
+      "five_minute_days": 2805,
+      "bars_per_day": [
+        51,
+        54
+      ],
+      "zero_volume_minutes": 6621,
+      "zero_first_minute_volume_bars": 1191
+    },
+    "TL": {
+      "path": "D:\\Github Repository\\research-validation-20261005\\cgb-market-data\\research\\TL_1min.parquet",
+      "bytes": 5463013,
+      "minute_rows": 212925,
+      "minute_start": "2023-04-24 09:31:00",
+      "minute_end": "2026-09-30 15:15:00",
+      "excluded_incomplete_dates": 0,
+      "excluded_incomplete_bins": 0,
+      "five_minute_rows": 42585,
+      "five_minute_start": "2023-04-24 09:35:00",
+      "five_minute_end": "2026-09-30 15:15:00",
+      "five_minute_days": 835,
+      "bars_per_day": [
+        51
+      ],
+      "zero_volume_minutes": 2644,
+      "zero_first_minute_volume_bars": 463
+    }
+  },
+  "status": "complete"
+}

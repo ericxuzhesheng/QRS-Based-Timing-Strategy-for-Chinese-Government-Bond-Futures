@@ -10,3 +10,4 @@ data/raw/*
 *.xlsx
 *.xls
 *.pdf
+results/minute_research/ledgers/

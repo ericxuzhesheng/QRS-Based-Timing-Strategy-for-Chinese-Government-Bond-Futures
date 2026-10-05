@@ -6,7 +6,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.8+">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python 3.10+">
   <img src="https://img.shields.io/badge/Asset-CGB%20Futures-F2C94C?style=for-the-badge" alt="CGB Futures">
   <img src="https://img.shields.io/badge/Strategy-Dynamic%20QRS%20Timing-7AC943?style=for-the-badge" alt="Dynamic QRS Timing">
 </p>
@@ -16,6 +16,23 @@
 ## 简体中文
 
 当前语言：中文 | [Switch to English](#en)
+
+### 当前研究入口（2026-10-05）
+
+四个品种 **TS、TF、T、TL** 使用 Tushare 真实合约一分钟行情，从各自最早已取得历史研究至最新完成交易日。分钟缓存包含前一交易日主力映射、完整时段标记与换月记录；研究仅以五个真实分钟构造五分钟格，成交时间保留下一格实际首分钟。
+
+已修复两条日趋势分支把当日最终收盘映射到盘中的泄漏。新的研究入口每日收盘平仓、下一格开盘成交、单边 0/1/3bp 成本检验；2024 年末以前训练仅比较预先声明的六个候选，2025 年起参数冻结。换月只向前调整因子坐标，旧历史不回调，盈亏始终使用真实原价。开盘首分钟零量时推迟调仓，日末零量平仓单独报告。
+
+```powershell
+python scripts/run_minute_research.py --data-dir "D:/Github Repository/research-validation-20261005/cgb-market-data"
+python scripts/verify_minute_research.py
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD = '1'
+python -m pytest tests/test_minute_research.py tests/test_tushare_daily_backfill.py -q -p no:cacheprovider
+```
+
+结果及准确数据范围见 [四品种报告](results/minute_research/report.md)、[成本与分段绩效](results/minute_research/summary.csv)、[数据质量](results/minute_research/data_quality.csv) 和 [独立核对](results/minute_research/verification.json)。详细账本保存在本地 Parquet，不进入 Git。
+
+**以下旧全样本/滚动报告与图表保留为历史实验。原高夏普结果包含时间泄漏且没有成本，不能作为有效收益证据；当前结论以以上因果研究为准。**
 
 ---
 
@@ -98,6 +115,8 @@ $$
 
 ### 4.1 绩效汇总 (Performance Summary)
 
+此处为旧实验结果，已撤回其有效性解释。请使用上方四品种因果研究的最新结果。
+
 基于 2024-01-02 至今的回测数据（`fast-mode` 演示参数）：
 
 | 合约 (Asset) | 模式 (Method) | 年化收益 (Ann. Ret) | 夏普比率 (Sharpe) | 最大回撤 (MaxDD) | 胜率 (Win Rate) |
@@ -156,9 +175,7 @@ $$
 
 
 
-> **结果分析**：
-> 1. **稳定性**：Dynamic 模式由于采用了样本外滚动，其 Sharpe 比率虽略低于全样本最优的 Static 模式，但更接近真实交易环境，有效降低了过度拟合（Overfitting）风险。
-> 2. **收益特征**：TL 合约由于波动率更高且趋势性更强，QRS 指标在 TL 上的表现显著优于 T 合约。
+> 原“动态模式更稳定、TL 明显更优”的解释已撤回。修复时点、换月与成本后的后段结果才可用于评价该方法。
 
 ### 4.2 可视化对比 (Visual Comparison)
 
@@ -209,6 +226,8 @@ python scripts/run_qrs_pipeline.py --mode full --contract ALL --full-grid
 ## English
 
 Current language: English | [切换到中文](#zh)
+
+The current four-product study uses real-contract Tushare minute bars, prior-day daily trends, next-bar opening execution, daily closing liquidation and 0/1/3 bp per-side cost assumptions. Six candidates are selected using history through 2024 only, then frozen for the 2025-onward holdout. See [the current report](results/minute_research/report.md). The historical performance tables below contain look-ahead contamination and omit costs; their validity is withdrawn. The new study reports adverse results and liquidity limitations without retuning parameters on the holdout.
 
 ---
 
