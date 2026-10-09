@@ -179,6 +179,7 @@ $$
 
 
 
+
 > 原“动态模式更稳定、TL 明显更优”的解释已撤回。修复时点、换月与成本后的后段结果才可用于评价该方法。
 
 ### 4.2 可视化对比 (Visual Comparison)
@@ -310,6 +311,7 @@ Based on backtest data from 2024-01-02 to 2026-07-29 (`fast-mode` parameters):
 | **T** | **Dynamic WF (Out-of-sample)** | 9.13% | 3.5711 | -1.55% | 52.29% |
 | **TL** | **Static Grid (In-sample)** | 48.57% | 6.7774 | -2.48% | 53.28% |
 | **TL** | **Dynamic WF (Out-of-sample)** | 36.58% | 5.0833 | -2.48% | 52.75% |
+
 
 
 
