@@ -26,9 +26,9 @@
   "t_daily": {
     "contract": "T",
     "frequency": "daily",
-    "last_updated": "2026-10-15T14:02:43.417808",
+    "last_updated": "2026-10-16T13:50:36.597573",
     "date_start": "2024-01-02",
-    "date_end": "2026-10-15",
-    "row_count": 672
+    "date_end": "2026-10-16",
+    "row_count": 673
   }
 }
