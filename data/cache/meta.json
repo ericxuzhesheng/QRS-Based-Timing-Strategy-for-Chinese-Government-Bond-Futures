@@ -2,33 +2,33 @@
   "tl_daily": {
     "contract": "TL",
     "frequency": "daily",
-    "last_updated": "2026-10-27T15:13:41.408765",
+    "last_updated": "2026-10-28T15:49:05.421003",
     "date_start": "2024-01-02",
-    "date_end": "2026-10-27",
-    "row_count": 680
+    "date_end": "2026-10-28",
+    "row_count": 681
   },
   "tl_5min": {
     "contract": "TL",
     "frequency": "5min",
-    "last_updated": "2026-10-27T15:13:39.654577",
+    "last_updated": "2026-10-28T15:49:03.790191",
     "date_start": "2024-01-02",
-    "date_end": "2026-10-26",
-    "row_count": 35308
+    "date_end": "2026-10-27",
+    "row_count": 35360
   },
   "t_5min": {
     "contract": "T",
     "frequency": "5min",
-    "last_updated": "2026-10-27T15:13:36.930317",
+    "last_updated": "2026-10-28T15:49:00.857528",
     "date_start": "2024-01-02",
-    "date_end": "2026-10-26",
-    "row_count": 35308
+    "date_end": "2026-10-27",
+    "row_count": 35360
   },
   "t_daily": {
     "contract": "T",
     "frequency": "daily",
-    "last_updated": "2026-10-27T15:13:37.714461",
+    "last_updated": "2026-10-28T15:49:01.720156",
     "date_start": "2024-01-02",
-    "date_end": "2026-10-27",
-    "row_count": 680
+    "date_end": "2026-10-28",
+    "row_count": 681
   }
 }
