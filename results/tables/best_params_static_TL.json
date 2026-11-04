@@ -1,16 +1,16 @@
 {
   "S": 0.2,
-  "trend_method": "price_compare",
-  "ma_len_days": 3.0,
+  "trend_method": "ma_cross",
+  "ma_len_days": null,
   "compare_lag_days": null,
-  "ma_short": null,
-  "ma_long": null,
-  "cumulative_return": 1.745700134434863,
-  "annualized_return": 0.48567031264397786,
-  "annualized_volatility": 0.07166043477969425,
-  "sharpe_ratio": 6.777384398197898,
-  "max_drawdown": -0.024806325567254484,
-  "calmar_ratio": 19.57848659718816,
-  "win_rate": 0.5328087072273119,
-  "turnover": 363.0
+  "ma_short": 10.0,
+  "ma_long": 20.0,
+  "cumulative_return": 0.20244926333097912,
+  "annualized_return": 0.07259403153042719,
+  "annualized_volatility": 0.06575912481255063,
+  "sharpe_ratio": 1.1039385292514123,
+  "max_drawdown": -0.060062133241285065,
+  "calmar_ratio": 1.2086489042738169,
+  "win_rate": 0.5081930270740109,
+  "turnover": 61.0
 }
