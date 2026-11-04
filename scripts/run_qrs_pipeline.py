@@ -20,6 +20,7 @@ from src.backtest import (
     run_intraday_backtest,
 )
 from src.data_loader import aggregate_to_daily, discover_input_file, load_market_data
+from src.cache_manager import read_cache
 from src.grid_search import (
     run_grid_search, 
     FAST_QRS_GRID, FAST_SIGNAL_GRID, 
@@ -45,6 +46,8 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run QRS timing pipeline for Chinese government bond futures.")
     parser.add_argument("--mode", choices=["static", "dynamic", "full", "daily_baseline"], default="static")
     parser.add_argument("--input", default=None, help="CSV/XLSX input file. If omitted, auto-discover a file.")
+    parser.add_argument("--data-source", choices=["file", "cache"], default="file",
+                        help="Use a CSV/Excel file or the existing 5-minute cache (no API calls).")
     parser.add_argument("--sheet-name", default=None, help="Excel sheet name or index. Defaults to the first sheet.")
     parser.add_argument("--contract", default="T", help="Contract label, e.g. T, TL, ALL.")
     parser.add_argument("--start-date", default="2024-01-01")
@@ -438,14 +441,26 @@ def run_dynamic(args: argparse.Namespace, raw: pd.DataFrame, contract: str) -> t
 def run_pipeline(args: argparse.Namespace) -> None:
     contracts = ["T", "TL"] if args.contract == "ALL" else [args.contract]
     all_results = []
-    
+    # Validate every input before writing any results.
+    inputs = {}
     for contract in contracts:
-        try:
+        if args.data_source == "cache":
+            if args.input is not None:
+                raise ValueError("--input cannot be combined with --data-source cache")
+            input_path = project_path("data", "cache", f"{contract.lower()}_5min.parquet")
+            raw = read_cache(contract, "5min")
+            if raw is None or raw.empty:
+                raise ValueError(f"Missing or empty 5-minute cache for {contract}: {input_path}")
+            missing = {"date", "open", "high", "low", "close"} - set(raw.columns)
+            if missing:
+                raise ValueError(f"Invalid cache for {contract}; missing columns: {sorted(missing)}")
+        else:
             input_path = _resolve_input(args.input, contract)
             raw = load_market_data(input_path, sheet_name=_sheet_value(args.sheet_name))
-        except Exception as e:
-            print(f"Error loading data for {contract}: {e}")
-            continue
+        inputs[contract] = (input_path, raw)
+
+    for contract in contracts:
+        input_path, raw = inputs[contract]
             
         static_bt = None
         dynamic_bt = None
@@ -458,6 +473,8 @@ def run_pipeline(args: argparse.Namespace) -> None:
             
         if args.mode in ["dynamic", "full"]:
             dynamic_bt, dynamic_summary = run_dynamic(args, raw, contract)
+            if dynamic_summary.empty:
+                raise RuntimeError(f"Dynamic selection produced no results for {contract}")
             if not dynamic_summary.empty:
                 d_res = dynamic_summary.loc[dynamic_summary["portfolio"] == "QRS Strategy"].iloc[0].to_dict()
                 d_res.update({"contract": contract, "method": "dynamic_walk_forward"})

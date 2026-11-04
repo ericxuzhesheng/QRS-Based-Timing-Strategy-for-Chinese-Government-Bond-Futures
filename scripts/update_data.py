@@ -77,7 +77,7 @@ def run_full_pipeline() -> bool:
 
     rc = subprocess.run(
         [sys.executable, str(ROOT / "scripts" / "run_qrs_pipeline.py"),
-         "--mode", "full", "--contract", "ALL", "--fast-mode"],
+         "--mode", "full", "--contract", "ALL", "--fast-mode", "--data-source", "cache"],
         cwd=str(ROOT),
     ).returncode
 
@@ -204,6 +204,9 @@ def main() -> int:
 
     # Full pipeline: refresh charts + report + README
     if args.run_pipeline or args.mode == "full":
+        if not all_ok:
+            print("  Skipping pipeline and README refresh because a cache update failed")
+            return 1
         pipeline_ok = run_full_pipeline()
         if not pipeline_ok:
             all_ok = False
