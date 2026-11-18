@@ -5,12 +5,12 @@
   "compare_lag_days": null,
   "ma_short": 10.0,
   "ma_long": 20.0,
-  "cumulative_return": 0.06917301034855683,
-  "annualized_return": 0.025488951951217143,
-  "annualized_volatility": 0.023145647486783872,
-  "sharpe_ratio": 1.101241689858592,
+  "cumulative_return": 0.07165708048330299,
+  "annualized_return": 0.026326549106215045,
+  "annualized_volatility": 0.023148809188966946,
+  "sharpe_ratio": 1.1372744442838405,
   "max_drawdown": -0.024758418956667638,
-  "calmar_ratio": 1.0295064477189795,
-  "win_rate": 0.5073417206415952,
+  "calmar_ratio": 1.0633372491309707,
+  "win_rate": 0.5073995055707948,
   "turnover": 69.0
 }
