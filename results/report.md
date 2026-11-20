@@ -17,7 +17,7 @@
 
 本报告展示基于 QRS 指标的中国国债期货择时研究流程。
 - **理论来源**：本项目核心思路参考自中金公司（CICC）量化研究报告 **《金融工程视角下的技术择时艺术》**。
-- **运行环境**：当前运行模式：`static`；当前运行合约：`TL`；输入数据：`auto`；样本区间：`2024-01-02 09:30:00 至 2026-11-18 15:15:00`。
+- **运行环境**：当前运行模式：`static`；当前运行合约：`TL`；输入数据：`auto`；样本区间：`2024-01-02 09:30:00 至 2026-11-19 15:15:00`。
 
 
 ### 2. 核心模型逻辑
@@ -63,13 +63,13 @@ $$
   "compare_lag_days": NaN,
   "ma_short": 10.0,
   "ma_long": 20.0,
-  "cumulative_return": 0.19594101163779354,
-  "annualized_return": 0.06943097965477149,
-  "annualized_volatility": 0.06561790262435771,
-  "sharpe_ratio": 1.0581103155985108,
+  "cumulative_return": 0.19057275505529314,
+  "annualized_return": 0.06764337550139175,
+  "annualized_volatility": 0.06558803415611632,
+  "sharpe_ratio": 1.031337139033367,
   "max_drawdown": -0.060062133241285065,
-  "calmar_ratio": 1.1559859083900559,
-  "win_rate": 0.5077595489960094,
+  "calmar_ratio": 1.1262233265949926,
+  "win_rate": 0.5076378127075493,
   "turnover": 63.0
 }
 ```
@@ -78,13 +78,13 @@ $$
 
 | Metric                | QRS Strategy   | Long-only Benchmark   |
 |:----------------------|:---------------|:----------------------|
-| Cumulative Return     | 19.59%         | 15.61%                |
-| Annualized Return     | 6.94%          | 5.67%                 |
+| Cumulative Return     | 19.06%         | 16.13%                |
+| Annualized Return     | 6.76%          | 5.83%                 |
 | Annualized Volatility | 6.56%          | 6.61%                 |
-| Sharpe Ratio          | 1.0581         | 0.8577                |
+| Sharpe Ratio          | 1.0313         | 0.8824                |
 | Max Drawdown          | -6.01%         | -9.72%                |
-| Calmar Ratio          | 1.1560         | 0.5832                |
-| Win Rate              | 50.78%         | 50.64%                |
+| Calmar Ratio          | 1.1262         | 0.5998                |
+| Win Rate              | 50.76%         | 50.65%                |
 | Turnover              | 63.0000        | 0.0000                |
 
 ### 5. Debug 辅助指标
@@ -92,16 +92,16 @@ $$
 | Metric                  | Value               |
 |:------------------------|:--------------------|
 | sample_start            | 2024-01-02 09:30:00 |
-| sample_end              | 2026-11-18 15:15:00 |
-| bar_count               | 36192               |
-| average_position        | 0.2445              |
-| long_ratio              | 60.78%              |
-| short_ratio             | 36.33%              |
+| sample_end              | 2026-11-19 15:15:00 |
+| bar_count               | 36244               |
+| average_position        | 0.2427              |
+| long_ratio              | 60.70%              |
+| short_ratio             | 36.43%              |
 | cash_ratio              | 2.88%               |
 | turnover_count          | 63.0000             |
-| benchmark_annual_return | 5.67%               |
-| strategy_annual_return  | 6.94%               |
-| strategy_sharpe         | 1.0581              |
+| benchmark_annual_return | 5.83%               |
+| strategy_annual_return  | 6.76%               |
+| strategy_sharpe         | 1.0313              |
 | max_drawdown            | -6.01%              |
 
 ### 6. 可视化图表
@@ -138,7 +138,7 @@ Current language: English | [切换到中文](#zh)
 
 This report presents a QRS-based timing workflow for Chinese government bond futures.
 - **Source**: The core logic is inspired by the CICC quantitative research report ***The Art of Technical Timing from a Financial Engineering Perspective***.
-- **Environment**: Current mode: `static`; contract: `TL`; input data: `auto`; sample period: `2024-01-02 09:30:00 to 2026-11-18 15:15:00`.
+- **Environment**: Current mode: `static`; contract: `TL`; input data: `auto`; sample period: `2024-01-02 09:30:00 to 2026-11-19 15:15:00`.
 ### 2. Core Model Logic
 
 #### 2.1 QRS Factor Construction
@@ -173,13 +173,13 @@ Parameters used in this run:
   "compare_lag_days": NaN,
   "ma_short": 10.0,
   "ma_long": 20.0,
-  "cumulative_return": 0.19594101163779354,
-  "annualized_return": 0.06943097965477149,
-  "annualized_volatility": 0.06561790262435771,
-  "sharpe_ratio": 1.0581103155985108,
+  "cumulative_return": 0.19057275505529314,
+  "annualized_return": 0.06764337550139175,
+  "annualized_volatility": 0.06558803415611632,
+  "sharpe_ratio": 1.031337139033367,
   "max_drawdown": -0.060062133241285065,
-  "calmar_ratio": 1.1559859083900559,
-  "win_rate": 0.5077595489960094,
+  "calmar_ratio": 1.1262233265949926,
+  "win_rate": 0.5076378127075493,
   "turnover": 63.0
 }
 ```
@@ -188,13 +188,13 @@ Parameters used in this run:
 
 | Metric                | QRS Strategy   | Long-only Benchmark   |
 |:----------------------|:---------------|:----------------------|
-| Cumulative Return     | 19.59%         | 15.61%                |
-| Annualized Return     | 6.94%          | 5.67%                 |
+| Cumulative Return     | 19.06%         | 16.13%                |
+| Annualized Return     | 6.76%          | 5.83%                 |
 | Annualized Volatility | 6.56%          | 6.61%                 |
-| Sharpe Ratio          | 1.0581         | 0.8577                |
+| Sharpe Ratio          | 1.0313         | 0.8824                |
 | Max Drawdown          | -6.01%         | -9.72%                |
-| Calmar Ratio          | 1.1560         | 0.5832                |
-| Win Rate              | 50.78%         | 50.64%                |
+| Calmar Ratio          | 1.1262         | 0.5998                |
+| Win Rate              | 50.76%         | 50.65%                |
 | Turnover              | 63.0000        | 0.0000                |
 
 ### 5. Debug Metrics
@@ -202,16 +202,16 @@ Parameters used in this run:
 | Metric                  | Value               |
 |:------------------------|:--------------------|
 | sample_start            | 2024-01-02 09:30:00 |
-| sample_end              | 2026-11-18 15:15:00 |
-| bar_count               | 36192               |
-| average_position        | 0.2445              |
-| long_ratio              | 60.78%              |
-| short_ratio             | 36.33%              |
+| sample_end              | 2026-11-19 15:15:00 |
+| bar_count               | 36244               |
+| average_position        | 0.2427              |
+| long_ratio              | 60.70%              |
+| short_ratio             | 36.43%              |
 | cash_ratio              | 2.88%               |
 | turnover_count          | 63.0000             |
-| benchmark_annual_return | 5.67%               |
-| strategy_annual_return  | 6.94%               |
-| strategy_sharpe         | 1.0581              |
+| benchmark_annual_return | 5.83%               |
+| strategy_annual_return  | 6.76%               |
+| strategy_sharpe         | 1.0313              |
 | max_drawdown            | -6.01%              |
 
 ### 6. Visualization
