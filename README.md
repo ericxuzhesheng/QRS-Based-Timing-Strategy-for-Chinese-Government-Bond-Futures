@@ -121,10 +121,11 @@ $$
 
 | 合约 (Asset) | 模式 (Method) | 年化收益 (Ann. Ret) | 夏普比率 (Sharpe) | 最大回撤 (MaxDD) | 胜率 (Win Rate) |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **T** | **Static Grid (In-sample)** | 2.64% | 1.1437 | -2.48% | 50.75% |
-| **T** | **Dynamic WF (Out-of-sample)** | -1.12% | -0.4806 | -5.84% | 50.23% |
-| **TL** | **Static Grid (In-sample)** | 6.78% | 1.0341 | -6.01% | 50.77% |
-| **TL** | **Dynamic WF (Out-of-sample)** | -1.57% | -0.2394 | -10.48% | 50.54% |
+| **T** | **Static Grid (In-sample)** | 2.63% | 1.1382 | -2.48% | 50.75% |
+| **T** | **Dynamic WF (Out-of-sample)** | -1.11% | -0.4785 | -5.84% | 50.23% |
+| **TL** | **Static Grid (In-sample)** | 6.85% | 1.0443 | -6.01% | 50.77% |
+| **TL** | **Dynamic WF (Out-of-sample)** | -1.65% | -0.2518 | -10.48% | 50.54% |
+
 
 
 
@@ -338,10 +339,11 @@ Based on backtest data from 2024-01-02 to 2026-07-29 (`fast-mode` parameters):
 
 | Asset | Method | Ann. Return | Sharpe Ratio | Max Drawdown | Win Rate |
 | :--- | :--- | :---: | :---: | :---: | :---: |
-| **T** | **Static Grid (In-sample)** | 2.64% | 1.1437 | -2.48% | 50.75% |
-| **T** | **Dynamic WF (Out-of-sample)** | -1.12% | -0.4806 | -5.84% | 50.23% |
-| **TL** | **Static Grid (In-sample)** | 6.78% | 1.0341 | -6.01% | 50.77% |
-| **TL** | **Dynamic WF (Out-of-sample)** | -1.57% | -0.2394 | -10.48% | 50.54% |
+| **T** | **Static Grid (In-sample)** | 2.63% | 1.1382 | -2.48% | 50.75% |
+| **T** | **Dynamic WF (Out-of-sample)** | -1.11% | -0.4785 | -5.84% | 50.23% |
+| **TL** | **Static Grid (In-sample)** | 6.85% | 1.0443 | -6.01% | 50.77% |
+| **TL** | **Dynamic WF (Out-of-sample)** | -1.65% | -0.2518 | -10.48% | 50.54% |
+
 
 
 
